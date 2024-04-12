@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:news_project/models/slider_model.dart';
 import 'package:news_project/services/category_data.dart';
 import 'package:news_project/services/slider_data.dart';
@@ -35,7 +36,51 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      //App bar Widget
+      appBar: getAppBar(),
+      body: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: 10),
+              height: 80,
+
+              //Category list code
+              child: getCategoryList(),
+            ),
+
+            SizedBox(
+              height: 20,
+            ),
+
+            //Get View all breaking news text
+            getViewAllBreakingNewsText(),
+
+            //Get breaking news
+            getBreakingNews(),
+
+            SizedBox(
+              height: 10.0,
+            ),
+
+            //Get Indicator code for Breaking news slider
+            Center(child: getIndicator()),
+
+            SizedBox(
+              height: 20,
+            ),
+
+            //Get Trending news and view all text for Trending news
+            getTrendingNewsAndViewAllText(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  //App bar
+  AppBar getAppBar() => AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -51,104 +96,64 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         centerTitle: true,
         elevation: 0,
-      ),
-      body: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      );
+
+  //Category list
+  Widget getCategoryList() => ListView.builder(
+      itemCount: categoryList.length,
+      shrinkWrap: true,
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (context, index) {
+        return CategoryTile(
+          image: categoryList[index].categoryImage,
+          categoryName: categoryList[index].categoryName,
+        );
+      });
+
+  //Get View all breaking news text
+  Widget getViewAllBreakingNewsText() => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              margin: EdgeInsets.only(left: 10),
-              height: 80,
-              child: ListView.builder(
-                  itemCount: categoryList.length,
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return CategoryTile(
-                      image: categoryList[index].categoryImage,
-                      categoryName: categoryList[index].categoryName,
-                    );
-                  }),
+            const Text(
+              "Breaking News",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18),
             ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Breaking News",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
-                  ),
-                  Text("View All",
-                    style: TextStyle(
-                      color: Colors.blue,
-
-                    ),
-                  )
-
-                ],
+            Text(
+              "View All",
+              style: TextStyle(
+                color: Colors.blue,
               ),
-            ),
-
-            Container(
-                child: CarouselSlider.builder(
-                    itemCount: sliderList.length,
-                    itemBuilder: (context, index, realIndex) {
-                      String? image = sliderList[index].image;
-                      String? name = sliderList[index].name;
-                      return buildImage(image!, index, name!);
-                    },
-                    options: CarouselOptions(
-                        height: 250,
-                        autoPlay: true,
-                        enlargeCenterPage: true,
-                        enlargeStrategy: CenterPageEnlargeStrategy.height,
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            activeIndex = index;
-                          });
-                        }))),
-            SizedBox(
-              height: 10.0,
-            ),
-            Center(child: getIndicator()),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Trending News",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
-                  ),
-                  Text("View All",
-                    style: TextStyle(
-                      color: Colors.blue,
-
-                    ),
-                  )
-
-                ],
-              ),
-            ),
+            )
           ],
         ),
-      ),
-    );
-  }
+      );
 
+  //Get Breaking news list for slider
+  Widget getBreakingNews() => Container(
+      child: CarouselSlider.builder(
+          itemCount: sliderList.length,
+          itemBuilder: (context, index, realIndex) {
+            String? image = sliderList[index].image;
+            String? name = sliderList[index].name;
+            return buildImage(image!, index, name!);
+          },
+          options: CarouselOptions(
+              height: 250,
+              autoPlay: true,
+              enlargeCenterPage: true,
+              enlargeStrategy: CenterPageEnlargeStrategy.height,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  activeIndex = index;
+                });
+              })));
+
+  //Build Image for Breaking news slider
   Widget buildImage(String image, int index, String name) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 5.0),
@@ -184,6 +189,30 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  //Get Trending news and view all text for Trending news list
+  Widget getTrendingNewsAndViewAllText() => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              "Trending News",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18),
+            ),
+            Text(
+              "View All",
+              style: TextStyle(
+                color: Colors.blue,
+              ),
+            )
+          ],
+        ),
+      );
+
+  //Indicator code for Breaking news
   Widget getIndicator() => AnimatedSmoothIndicator(
         activeIndex: activeIndex,
         count: sliderList.length,
