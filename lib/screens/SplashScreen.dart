@@ -21,10 +21,6 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
 
-    // Timer(Duration(seconds: 2), () {
-    //   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
-    // });
-
     // Navigate to the main screen after a delay
     Timer(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
@@ -38,21 +34,22 @@ class _SplashScreenState extends State<SplashScreen> {
     final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.sizeOf(context).height;
     return Scaffold(
-        body: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset("images/splash_pic.jpeg",
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Center(
+              child: Image.asset("images/splash_pic.jpeg",
               fit: BoxFit.cover,
               height: height * .5,
               width: width,),
-              SizedBox(height: height * .04,),
-              Text("TOP HEADLINES",textDirection: TextDirection.ltr, style: GoogleFonts.anton(letterSpacing:.6, color:Colors.blue.shade700)),
-              SizedBox(height: height * .04,),
-              SpinKitChasingDots(color: Colors.blue, size: 60,)
+            ),
+            SizedBox(height: height * .04,),
+            Text("TOP HEADLINES",textDirection: TextDirection.ltr, style: GoogleFonts.anton(letterSpacing:.6, color:Colors.blue.shade700)),
+            SizedBox(height: height * .04,),
+            SpinKitChasingDots(color: Colors.blue, size: 60,)
 
-            ],
-          ),
+          ],
         ),
     );
   }

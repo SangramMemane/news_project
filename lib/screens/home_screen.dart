@@ -268,7 +268,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         children: [
                           Text(
-                            "I am first trending news so far and this is my title",
+                            "I am trending news so far and this is my title",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w500,
@@ -278,7 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 8,
                           ),
                           Text(
-                            "I am first trending news so far and this is my subtitle",
+                            "I am trending news so far and this is my subtitle",
                             style: TextStyle(
                                 color: Colors.black54,
                                 fontWeight: FontWeight.w500,
